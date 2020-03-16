@@ -1,6 +1,6 @@
 {
   "name": "universal-secure-random",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "repository": "https://github.com/ex3ndr/universal-secure-random.git",
   "author": "Steve Korshakov <steve@korshakov.com>",
