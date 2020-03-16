@@ -32,12 +32,7 @@ if (crypto && crypto.getRandomValues) {
         return x;
     };
 } else if (typeof require !== 'undefined') {
-    let nodeCrypto = require('crypto');
-    if (nodeCrypto && nodeCrypto.randomBytes) {
-        engine = function (length: number) {
-            return nodeCrypto.randomBytes(length);
-        };
-    } else if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
         const RNGetRandomValues = require('react-native').NativeModules.RNGetRandomValues;
         const base64Decode = require('fast-base64-decode');
         engine = function (length: number) {
@@ -45,6 +40,17 @@ if (crypto && crypto.getRandomValues) {
             let random = RNGetRandomValues.getRandomBase64(length);
             base64Decode(random, res);
             return res;
+        }
+    } else {
+        /* 
+         * React Native will crash during file parsing 
+         * if using require directly
+         */
+        let nodeCrypto = require.call(null, 'crypto');
+        if (nodeCrypto && nodeCrypto.randomBytes) {
+            engine = function (length: number) {
+                return nodeCrypto.randomBytes(length);
+            };
         }
     }
 }
