@@ -8,10 +8,18 @@ Simple module for secure random number generation in NodeJS, Browser and React N
 yarn add universal-secure-random
 ```
 
+# Install for React Native
+For generation secure random numbers on React Native `react-native-get-random-values` is required. 
+No need to import it directly. It will use the library automatically.
+
+```bash
+yarn add react-native-get-random-values
+```
+
 ## Example
 ```js
 import { randomBytes } from 'universal-secure-random';
-let bytes = randomBytes(32); // Buffer
+let bytes: UInt8Array = randomBytes(32);
 ```
 
 # License
