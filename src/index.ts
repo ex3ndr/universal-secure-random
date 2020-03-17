@@ -1,10 +1,10 @@
-let engine: (length: number) => Buffer;
+let engine: (length: number) => Uint8Array;
 
-export function setPRNGEngine(random: (length: number) => Buffer) {
+export function setPRNGEngine(random: (length: number) => Uint8Array) {
     engine = random;
 }
 
-export function randomBytes(length: number): Buffer {
+export function randomBytes(length: number): Uint8Array {
     if (!engine) {
         throw Error('Unable to detect Engine');
     }
@@ -20,7 +20,7 @@ var crypto = typeof self !== 'undefined' ? (self.crypto || (self as any).msCrypt
 if (crypto && crypto.getRandomValues) {
     var QUOTA = 65536;
     engine = function (length: number) {
-        let x = Buffer.alloc(length);
+        let x = new Uint8Array(length);
         var v = new Uint8Array(length);
         for (let i = 0; i < length; i += QUOTA) {
             crypto!.getRandomValues(v.subarray(i, i + Math.min(length - i, QUOTA)));
@@ -36,7 +36,7 @@ if (crypto && crypto.getRandomValues) {
         const RNGetRandomValues = require('react-native').NativeModules.RNGetRandomValues;
         const base64Decode = require('fast-base64-decode');
         engine = function (length: number) {
-            let res = Buffer.alloc(length);
+            let res = new Uint8Array(length);
             let random = RNGetRandomValues.getRandomBase64(length);
             base64Decode(random, res);
             return res;
